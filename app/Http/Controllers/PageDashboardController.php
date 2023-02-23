@@ -12,6 +12,7 @@ class PageDashboardController extends Controller
     public function __invoke(Request $request)
     {
         $purchasedCourses = auth()->user()->courses;
+
         return view('dashboard', compact('purchasedCourses'));
     }
 }

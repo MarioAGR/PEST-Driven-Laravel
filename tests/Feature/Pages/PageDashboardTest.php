@@ -3,10 +3,7 @@
 use App\Models\Course;
 use App\Models\User;
 use Carbon\Carbon;
-use GuzzleHttp\Promise\Coroutine;
 use Illuminate\Database\Eloquent\Factories\Sequence;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-
 use function Pest\Laravel\get;
 
 it('cannot be accessed by guest', function () {

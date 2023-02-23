@@ -1,8 +1,6 @@
 <?php
 
 use App\Models\Course;
-use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use function Pest\Laravel\get;
 
 it('gives back successful response for home page', function () {

@@ -2,9 +2,6 @@
 
 use App\Models\Course;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Factories\Sequence;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-
 
 it('has courses', function () {
     // Arrange
