@@ -14,6 +14,9 @@ class PageCourseDetailsController extends Controller
     public function __invoke(Course $course)
     {
         throw_unless($course->released_at, new NotFoundHttpException());
-        return view('course-details', compact('course'));
+
+        $course->loadCount('videos');
+
+        return view('pages.course-details', compact('course'));
     }
 }

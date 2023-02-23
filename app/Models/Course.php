@@ -22,8 +22,6 @@ class Course extends Model
 
     /**
      * Get all of the videos for the Course
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function videos(): HasMany
     {

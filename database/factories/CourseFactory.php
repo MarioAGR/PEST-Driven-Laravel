@@ -27,7 +27,7 @@ class CourseFactory extends Factory
                 'Learn A',
                 'Learn B',
                 'Learn C',
-            ]
+            ],
         ];
     }
 
