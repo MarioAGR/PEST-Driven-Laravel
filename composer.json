@@ -53,7 +53,7 @@
         "ide-helper": [
             "@php artisan ide-helper:eloquent",
             "@php artisan ide-helper:generate -M -H",
-            "@php artisan ide-helper:models -N -r -p",
+            "@php artisan ide-helper:models -N -r -p -M",
             "@php artisan ide-helper:meta"
         ]
     },
