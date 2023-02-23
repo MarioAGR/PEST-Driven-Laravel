@@ -18,10 +18,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', PageHomeController::class)
-    ->name('pages.home');
+    ->name('page.home');
 
 Route::get('course/{course:slug}', PageCourseDetailsController::class)
-    ->name('pages.course-details');
+    ->name('page.course-details');
 
 Route::middleware([
     'auth:sanctum',
