@@ -9,16 +9,20 @@ use function Pest\Laravel\get;
 
 it('cannot be accessed by guest', function () {
     // Arrange
-    $course = Course::factory()->create();
+    $course = Course::factory()
+        ->has(Video::factory())
+        ->create();
 
     // Act & Assert
     get(route('page.course-videos', $course))
         ->assertRedirect(route('login'));
 });
 
-it('include video player', function () {
+it('includes video player', function () {
     // Arrange
-    $course = Course::factory()->create();
+    $course = Course::factory()
+        ->has(Video::factory())
+        ->create();
 
     // Act & Assert
     loginAsUser();
