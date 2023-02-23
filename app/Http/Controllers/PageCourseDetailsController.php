@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Course;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class PageCourseDetailsController extends Controller
 {
@@ -12,6 +13,7 @@ class PageCourseDetailsController extends Controller
      */
     public function __invoke(Course $course)
     {
+        throw_unless($course->released_at, new NotFoundHttpException());
         return view('course-details', compact('course'));
     }
 }
