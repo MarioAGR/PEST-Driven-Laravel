@@ -4,6 +4,7 @@ use App\Http\Controllers\PageCourseDetailsController;
 use App\Http\Controllers\PageDashboardController;
 use App\Http\Controllers\PageHomeController;
 use App\Http\Controllers\PageVideosController;
+use App\Models\Course;
 use Illuminate\Support\Facades\Route;
 
 /*
