@@ -12,7 +12,8 @@
         "laravel/jetstream": "^3.0",
         "laravel/sanctum": "^3.2.1",
         "laravel/tinker": "^2.8.1",
-        "livewire/livewire": "^2.11"
+        "livewire/livewire": "^2.11",
+        "spatie/laravel-login-link": "^1.1"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.13",
