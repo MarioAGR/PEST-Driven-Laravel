@@ -65,7 +65,7 @@ class User extends Authenticatable
     /**
      * The courses that belong to the User
      */
-    public function courses(): BelongsToMany
+    public function courses(): BelongsToMany|Course
     {
         return $this->belongsToMany(Course::class, 'purchased_courses')
             ->withTimestamps()
