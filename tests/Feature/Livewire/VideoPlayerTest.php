@@ -39,15 +39,7 @@ it('shows list of all course videos', function () {
     // Arrange
     $course = Course::factory()
         ->has(
-            Video::factory()
-                ->count(3)
-                ->state(
-                    new Sequence(
-                        ['title' => 'First video'],
-                        ['title' => 'Second video'],
-                        ['title' => 'Third video'],
-                    )
-                )
+            Video::factory()->count(3)
         )->create();
 
     // Act & Assert
@@ -55,14 +47,12 @@ it('shows list of all course videos', function () {
         'video' => $course->videos()->first()
     ])
         ->assertSee([
-            'First video',
-            'Second video',
-            'Third video',
+            ...$course->videos()->pluck('title')->toArray(),
         ])
         ->assertSeeHtml([
-            route('page.course-videos', Video::where('title', 'First video')->first()),
-            route('page.course-videos', Video::where('title', 'Second video')->first()),
-            route('page.course-videos', Video::where('title', 'Third video')->first()),
+            route('page.course-videos', $course->videos[0]),
+            route('page.course-videos', $course->videos[1]),
+            route('page.course-videos', $course->videos[2]),
         ]);
 });
 
@@ -70,13 +60,13 @@ it('marks video as completed', function () {
     // Arrange
     $user = User::factory()->create();
     $course = Course::factory()
-        ->has(Video::factory()->state(['title' => 'Course video']))
+        ->has(Video::factory())
         ->create();
 
-    $user->courses()->attach($course);
+    $user->purchasedCourses()->attach($course);
 
     // Assert
-    expect($user->videos)->toHaveCount(0);
+    expect($user->watchedVideos)->toHaveCount(0);
 
     // Act && Assert
     loginAsUser($user);
@@ -86,23 +76,23 @@ it('marks video as completed', function () {
 
     // Assert
     $user->refresh();
-    expect($user->videos)
+    expect($user->watchedVideos)
         ->toHaveCount(1)
-        ->first()->title->toEqual('Course video');
+        ->first()->title->toEqual($course->videos()->first()->title);
 });
 
 it('marks video as not completed', function () {
     // Arrange
     $user = User::factory()->create();
     $course = Course::factory()
-        ->has(Video::factory()->state(['title' => 'Course video']))
+        ->has(Video::factory())
         ->create();
 
-    $user->courses()->attach($course);
-    $user->videos()->attach($course->videos()->first());
+    $user->purchasedCourses()->attach($course);
+    $user->watchedVideos()->attach($course->videos()->first());
 
     // Assert
-    expect($user->videos)->toHaveCount(1);
+    expect($user->watchedVideos)->toHaveCount(1);
 
     // Act && Assert
     loginAsUser($user);
@@ -112,6 +102,6 @@ it('marks video as not completed', function () {
 
     // Assert
     $user->refresh();
-    expect($user->videos)
+    expect($user->watchedVideos)
         ->toHaveCount(0);
 });

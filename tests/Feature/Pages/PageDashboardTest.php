@@ -12,7 +12,7 @@ it('cannot be accessed by guest', function () {
         ->assertRedirect(route('login'));
 });
 
-it('list purchased courses', function () {
+it('lists purchased courses', function () {
     // Arrange
     $user = User::factory()
         ->has(
@@ -22,7 +22,7 @@ it('list purchased courses', function () {
                     ['title' => 'Course B'],
                 )
             )
-        )
+        , 'purchasedCourses')
         ->create();
 
     // Act & Assert
@@ -52,10 +52,10 @@ it('shows latest purchased course first', function () {
     $firstPurchasedCourse = Course::factory()->create();
     $lastPurchasedCourse = Course::factory()->create();
 
-    $user->courses()->attach($firstPurchasedCourse, [
+    $user->purchasedCourses()->attach($firstPurchasedCourse, [
         'created_at' => Carbon::yesterday(),
     ]);
-    $user->courses()->attach($lastPurchasedCourse, [
+    $user->purchasedCourses()->attach($lastPurchasedCourse, [
         'created_at' => Carbon::now(),
     ]);
 
@@ -72,7 +72,7 @@ it('shows latest purchased course first', function () {
 it('includes link to product videos', function () {
     // Arrange
     $user = User::factory()
-        ->has(Course::factory())->create();
+        ->has(Course::factory(), 'purchasedCourses')->create();
 
     // Act & Assert
     loginAsUser($user);

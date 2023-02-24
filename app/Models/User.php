@@ -65,7 +65,7 @@ class User extends Authenticatable
     /**
      * The courses that belong to the User
      */
-    public function courses(): BelongsToMany|Course
+    public function purchasedCourses(): BelongsToMany
     {
         return $this->belongsToMany(Course::class, 'purchased_courses')
             ->withTimestamps()
@@ -73,9 +73,9 @@ class User extends Authenticatable
     }
 
     /**
-     * The videos that belong to the User
+     * The watched videos that belong to the User
      */
-    public function videos(): BelongsToMany|Video
+    public function watchedVideos(): BelongsToMany
     {
         return $this->belongsToMany(Video::class, 'watched_videos')
             ->withTimestamps();

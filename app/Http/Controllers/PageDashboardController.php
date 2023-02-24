@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use Illuminate\Http\Request;
 
 class PageDashboardController extends Controller
@@ -11,7 +12,7 @@ class PageDashboardController extends Controller
      */
     public function __invoke(Request $request)
     {
-        $purchasedCourses = auth()->user()->courses;
+        $purchasedCourses = Auth::user()->purchasedCourses;
 
         return view('dashboard', compact('purchasedCourses'));
     }
