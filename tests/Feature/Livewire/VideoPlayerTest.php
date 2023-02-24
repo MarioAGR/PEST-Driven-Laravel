@@ -4,13 +4,17 @@ use App\Http\Livewire\VideoPlayer;
 use App\Models\Course;
 use App\Models\User;
 use App\Models\Video;
-use Illuminate\Database\Eloquent\Factories\Sequence;
+
+function createCourseAndVideos(int $videosCount = 1): Course
+{
+    return Course::factory()
+        ->has(Video::factory()->count($videosCount))
+        ->create();
+}
 
 it('shows details for given video', function () {
     // Arrange
-    $course = Course::factory()
-        ->has(Video::factory())
-        ->create();
+    $course = createCourseAndVideos();
 
     // Act & Assert
     $video = $course->videos()->first();
@@ -25,9 +29,7 @@ it('shows details for given video', function () {
 
 it('shows given video', function () {
     // Arrange
-    $course = Course::factory()
-        ->has(Video::factory())
-        ->create();
+    $course = createCourseAndVideos();
 
     // Act & Assert
     $video = $course->videos()->first();
@@ -37,10 +39,7 @@ it('shows given video', function () {
 
 it('shows list of all course videos', function () {
     // Arrange
-    $course = Course::factory()
-        ->has(
-            Video::factory()->count(3)
-        )->create();
+    $course = createCourseAndVideos(videosCount: 3);
 
     // Act & Assert
     Livewire::test(VideoPlayer::class, [
@@ -50,18 +49,32 @@ it('shows list of all course videos', function () {
             ...$course->videos()->pluck('title')->toArray(),
         ])
         ->assertSeeHtml([
-            route('page.course-videos', $course->videos[0]),
             route('page.course-videos', $course->videos[1]),
             route('page.course-videos', $course->videos[2]),
         ]);
 });
 
+it('does not include route for current video', function () {
+    // Arrange
+    $course = createCourseAndVideos();
+
+    // Act & Assert
+    Livewire::test(VideoPlayer::class, [
+        'video' => $course->videos()->first()
+    ])
+        ->assertSee([
+            ...$course->videos()->pluck('title')->toArray(),
+        ])
+        ->assertDontSeeHtml([
+            route('page.course-videos', $course->videos()->first()),
+        ]);
+});
+
+
 it('marks video as completed', function () {
     // Arrange
     $user = User::factory()->create();
-    $course = Course::factory()
-        ->has(Video::factory())
-        ->create();
+    $course = createCourseAndVideos();
 
     $user->purchasedCourses()->attach($course);
 
@@ -84,9 +97,7 @@ it('marks video as completed', function () {
 it('marks video as not completed', function () {
     // Arrange
     $user = User::factory()->create();
-    $course = Course::factory()
-        ->has(Video::factory())
-        ->create();
+    $course = createCourseAndVideos();
 
     $user->purchasedCourses()->attach($course);
     $user->watchedVideos()->attach($course->videos()->first());
