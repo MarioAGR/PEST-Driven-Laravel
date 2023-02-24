@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Auth;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -27,5 +28,10 @@ class Video extends Model
     public function getReadableDuration(): string
     {
         return Str::of($this->duration_in_mins)->append(' min');
+    }
+
+    public function alreadyWatchedByCurrentUser(): bool
+    {
+        return (bool) Auth::user()->watchedVideos()->where('video_id', $this->id)->count();
     }
 }
