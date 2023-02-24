@@ -24,7 +24,8 @@ class AddGivenCoursesSeeder extends Seeder
                 ['title' => 'Advanced Laravel'],
                 ['title' => 'TDD The Laravel Way'],
             )
-        )->create();
+        )->released()
+            ->create();
     }
 
     private function isDataAlreadyGiven(): bool
