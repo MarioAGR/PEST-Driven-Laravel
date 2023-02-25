@@ -7,6 +7,18 @@ use App\Models\PurchasedCourse;
 use App\Models\User;
 use Spatie\WebhookClient\Models\WebhookCall;
 
+beforeEach(function () {
+    $this->dummyWebhookCall = WebhookCall::create([
+        'name' => 'default',
+        'url' => 'some-url',
+        'payload' => [
+            'email' => 'test@test.com',
+            'name' => 'Test User',
+            'p_product_id' => '123456',
+        ],
+    ]);
+});
+
 it('stores paddle purchase', function () {
     // Assert
     $this->assertDatabaseCount(User::class, 0);
@@ -17,18 +29,9 @@ it('stores paddle purchase', function () {
     $course = Course::factory()->create([
         'paddle_product_id' => '123456'
     ]);
-    $webhoolCall = WebhookCall::create([
-        'name' => 'default',
-        'url' => 'some-url',
-        'payload' => [
-            'email' => 'test@test.com',
-            'name' => 'Test User',
-            'p_product_id' => '123456',
-        ],
-    ]);
 
     // Act
-    (new HandlePaddlePurchaseJob($webhoolCall))->handle();
+    (new HandlePaddlePurchaseJob($this->dummyWebhookCall))->handle();
 
     // Assert
     $this->assertDatabaseHas(User::class, [
@@ -52,18 +55,9 @@ it('stores paddle purchased for given user', function () {
     $course = Course::factory()->create([
         'paddle_product_id' => '123456'
     ]);
-    $webhoolCall = WebhookCall::create([
-        'name' => 'default',
-        'url' => 'some-url',
-        'payload' => [
-            'email' => 'test@test.com',
-            'name' => 'Test User',
-            'p_product_id' => '123456',
-        ],
-    ]);
 
     // Act
-    (new HandlePaddlePurchaseJob($webhoolCall))->handle();
+    (new HandlePaddlePurchaseJob($this->dummyWebhookCall))->handle();
 
     // Assert
     $this->assertDatabaseCount(User::class, 1);
@@ -80,21 +74,10 @@ it('stores paddle purchased for given user', function () {
 it('sends out purchase email', function () {
     // Arrange
     Mail::fake();
-    $course = Course::factory()->create([
-        'paddle_product_id' => '123456'
-    ]);
-    $webhoolCall = WebhookCall::create([
-        'name' => 'default',
-        'url' => 'some-url',
-        'payload' => [
-            'email' => 'test@test.com',
-            'name' => 'Test User',
-            'p_product_id' => '123456',
-        ],
-    ]);
+    Course::factory()->create(['paddle_product_id' => '123456']);
 
     // Act
-    (new HandlePaddlePurchaseJob($webhoolCall))->handle();
+    (new HandlePaddlePurchaseJob($this->dummyWebhookCall))->handle();
 
     // Assert
     Mail::assertSent(NewPurchaseMail::class);

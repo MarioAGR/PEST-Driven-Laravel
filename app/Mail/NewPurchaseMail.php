@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\Course;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -16,7 +17,7 @@ class NewPurchaseMail extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct(public Course $course)
     {
         //
     }
@@ -38,6 +39,9 @@ class NewPurchaseMail extends Mailable
     {
         return new Content(
             markdown: 'mail.new-purchase-mail',
+            with: [
+                'loginUrl' => route('login'),
+            ]
         );
     }
 
