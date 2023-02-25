@@ -55,6 +55,6 @@ it('includes paddle checkout button', function () {
         ->assertOk()
         ->assertSee('<script src="https://cdn.paddle.com/paddle/paddle.js"></script>', false)
         ->assertSee("Paddle.Environment.set('sandbox');", false)
-        ->assertSee("Paddle.Setup({ vendor: vendor-id });", false)
+        ->assertSee("Paddle.Setup({ vendor: 'vendor-id' });", false)
         ->assertSee('<a href="#!" class="paddle_button" data-product="product_id">Buy Now!</a>', false);
 });
