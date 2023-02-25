@@ -5,7 +5,10 @@ use App\Http\Controllers\PageDashboardController;
 use App\Http\Controllers\PageHomeController;
 use App\Http\Controllers\PageVideosController;
 use App\Models\Course;
+use App\PaddleSignatureValidator;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Spatie\WebhookClient\WebhookConfig;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,3 +36,5 @@ Route::middleware([
     Route::get('videos/{course:slug}/{video:slug?}', PageVideosController::class)
         ->name('page.course-videos');
 });
+
+Route::webhooks('webhooks');
