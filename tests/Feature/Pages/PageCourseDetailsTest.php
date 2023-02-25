@@ -44,6 +44,7 @@ it('it shows course video count', function () {
 
 it('includes paddle checkout button', function () {
     // Arrange
+    $this->app['env'] = 'local'; // Dirty way to set up the environment as local
     config()->set('services.paddle.vendor-id', 'vendor-id');
     $course = Course::factory()
         ->released()->create([
