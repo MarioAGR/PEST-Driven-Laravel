@@ -11,6 +11,11 @@ class PaddleSignatureValidator implements SignatureValidator
 
     public function isValid(Request $request, WebhookConfig $config): bool
     {
+        return $this->isPaddleRequestValid($request);
+    }
+
+    protected function isPaddleRequestValid(Request $request): bool
+    {
         $publicPaddleKey = config('services.paddle.pubic-key');
         $signature = base64_decode($request->get('p_signature'));
         
