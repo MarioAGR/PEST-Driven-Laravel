@@ -14,5 +14,5 @@ it('tweets about release for provided course', function () {
     ]);
 
     // Assert
-    Twitter::assertTweetSent("I just release {$course->title} 🎉 Check it out on " . route('page.course-details', $course));
+    Twitter::assertTweetSent("[TESTING] I just release {$course->title} 🎉 Check it out on " . route('page.course-details', $course));
 });

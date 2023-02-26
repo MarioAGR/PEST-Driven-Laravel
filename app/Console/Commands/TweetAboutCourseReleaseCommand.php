@@ -29,6 +29,6 @@ class TweetAboutCourseReleaseCommand extends Command
     {
         $course = Course::findOrFail($this->argument(('courseId')));
 
-        Twitter::tweet("I just release {$course->title} 🎉 Check it out on " . route('page.course-details', $course));
+        Twitter::tweet("[TESTING] I just release {$course->title} 🎉 Check it out on " . route('page.course-details', $course));
     }
 }
