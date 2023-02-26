@@ -3,7 +3,7 @@
 ## Guests can
 * see courses overview (page) ✅
 * see course details (page) ✅
-* purchase a course
+* purchase a course ✅
 
 ## Member can
 * log in (page) ✅
