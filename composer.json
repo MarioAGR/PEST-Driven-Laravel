@@ -9,7 +9,7 @@
         "abraham/twitteroauth": "^5.0",
         "christophrumpel/missing-livewire-assertions": "^1.0",
         "guzzlehttp/guzzle": "^7.5",
-        "laravel/framework": "^10.1.0",
+        "laravel/framework": "^10.1.5",
         "laravel/jetstream": "^3.0.1",
         "laravel/sanctum": "^3.2.1",
         "laravel/tinker": "^2.8.1",
