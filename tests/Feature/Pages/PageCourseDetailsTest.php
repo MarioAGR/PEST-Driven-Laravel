@@ -59,3 +59,32 @@ it('includes paddle checkout button', function () {
         ->assertSee("Paddle.Setup({ vendor: 'vendor-id' });", false)
         ->assertSee('<a href="#!" class="paddle_button" data-product="product_id">Buy Now!</a>', false);
 });
+
+it('includes title', function () {
+    // Arrange
+    $course = Course::factory()->released()->create();
+    $expectedTitle = config('app.name') . " - {$course->title}";
+
+    // Act & Assert
+    get(route('page.course-details', $course))
+        ->assertOk()
+        ->assertSee("<title>{$expectedTitle}</title>", false);
+});
+
+it('includes social tags', function () {
+    // Arrange
+    $course = Course::factory()->released()->create();
+
+    // Act & Assert
+    get(route('page.course-details', $course))
+        ->assertOk()
+        ->assertSee([
+            '<meta name="description" content="' . $course->description . '" />',
+            '<meta property="og:type" content="website" />',
+            '<meta property="og:url" content="' . route('page.course-details', $course) . '" />',
+            '<meta property="og:title" content="' . $course->title . '" />',
+            '<meta property="og:description" content="' . $course->description . '" />',
+            '<meta property="og:image" content="' . asset("images/{$course->image_name}") . '" />',
+            '<meta name="twitter:card" content="summary_large_image" />',
+        ], false);
+});

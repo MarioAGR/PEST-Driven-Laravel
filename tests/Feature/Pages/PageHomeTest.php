@@ -82,3 +82,28 @@ it('includes courses links', function () {
             route('page.course-details', $lastCourse),
         ]);
 });
+
+it('includes title', function () {
+    // Arrange
+    $expectedTitle = config('app.name') . ' - Home';
+
+    // Act & Assert
+    get(route('page.home'))
+        ->assertOk()
+        ->assertSee("<title>$expectedTitle</title>", false);
+});
+
+it('includes social tags', function () {
+    // Act & Assert
+    get(route('page.home'))
+        ->assertOk()
+        ->assertSee([
+            '<meta name="description" content="LaravelCasts description" />',
+            '<meta property="og:type" content="website" />',
+            '<meta property="og:url" content="' . route('page.home') . '" />',
+            '<meta property="og:title" content="LaravelCasts" />',
+            '<meta property="og:description" content="LaravelCasts description" />',
+            '<meta property="og:image" content="' . asset('images/social.png') . '" />',
+            '<meta name="twitter:card" content="summary_large_image" />',
+        ], false);
+});
