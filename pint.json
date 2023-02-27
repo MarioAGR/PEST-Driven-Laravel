@@ -1,0 +1,8 @@
+{
+    "rules": {
+        "explicit_string_variable": true,
+        "single_quote": {
+            "strings_containing_single_quote_chars": false
+        }
+    }
+}
